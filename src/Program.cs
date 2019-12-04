@@ -3,6 +3,7 @@ using Jupiter.Budgetary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
@@ -34,7 +35,17 @@ namespace Jupiter
                     {
                         options.UseSqlServer(hostingContext.Configuration.GetConnectionString("BudgetaryDatabase"));
                     });
+                    services.AddLogging(options =>
+                    {
+                        options.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    });
+                    services.AddSingleton<Gtk.Builder>(new Gtk.Builder());
+                    services.AddSingleton<LoginWindow>();
                     services.AddSingleton<Startup>();
+                })
+                .ConfigureLogging((hostContext, logging) =>
+                {
+                    logging.AddConsole();
                 })
                 .UseConsoleLifetime();
     }

@@ -1,10 +1,11 @@
 using System;
 using Gtk;
+using Microsoft.Extensions.Logging;
 using UI = Gtk.Builder.ObjectAttribute;
 
 namespace Jupiter
 {
-    class LoginWindow : Window
+    public class LoginWindow : Window
     {
         #region UI References
         [UI] private Button _btnLogin = null;
@@ -13,14 +14,15 @@ namespace Jupiter
 
         [UI] private Entry _entryUsername = null;
         [UI] private Entry _entryPassword = null;
+        private readonly ILogger<LoginWindow> _logger;
         #endregion
 
-        public LoginWindow() : this(new Builder("LoginWindow.ui")) { }
-
-        private LoginWindow(Builder builder) :
-            base(builder.GetObject("LoginWindow").Handle)
+        public LoginWindow(
+            Builder builder,
+            ILogger<LoginWindow> logger) : base(new Builder("LoginWindow.ui").Handle)
         {
             builder.Autoconnect(this);
+            _logger = logger;
 
             // Window Event bindings
             Destroyed += (s, e) => Application.Quit();
@@ -48,6 +50,7 @@ namespace Jupiter
         {
             Console.WriteLine("User:" + _entryUsername.Buffer.Text);
             Console.WriteLine("Pass:" + _entryPassword.Buffer.Text);
+            _logger.LogInformation(_entryUsername.Text);
         }
 
         private void Button_Config_Clicked(object sender, EventArgs e)
