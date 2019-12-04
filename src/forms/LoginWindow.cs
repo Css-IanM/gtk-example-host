@@ -6,13 +6,14 @@ namespace Jupiter
 {
     class LoginWindow : Window
     {
+        #region UI References
         [UI] private Button _btnLogin = null;
         [UI] private Button _btnCancel = null;
         [UI] private Button _btnConfig = null;
 
         [UI] private Entry _entryUsername = null;
         [UI] private Entry _entryPassword = null;
-
+        #endregion
 
         public LoginWindow() : this(new Builder("LoginWindow.ui")) { }
 
@@ -22,7 +23,7 @@ namespace Jupiter
             builder.Autoconnect(this);
 
             // Window Event bindings
-            Destroyed += (SetFocusHandler, e) => Application.Quit();
+            Destroyed += (s, e) => Application.Quit();
 
             // UI Event Bindings
             _entryUsername.Activated += Entry_Username_Activated;
