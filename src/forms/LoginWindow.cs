@@ -31,43 +31,43 @@ namespace Jupiter
             builder.Autoconnect(this);
             this.logger = logger;
 
-            BindEventsWindow();
-            BindEventsUi();
+            bindEventsWindow();
+            bindEventsUi();
         }
 
-        private void BindEventsWindow()
+        private void bindEventsWindow()
         {
             Destroyed += (s, e) => Application.Quit();
         }
 
-        private void BindEventsUi()
+        private void bindEventsUi()
         {
-            entryUsername.Activated += Entry_Username_Activated;
-            entryPassword.Activated += Entry_Password_Activated;
+            entryUsername.Activated += entry_Username_Activated;
+            entryPassword.Activated += entry_Password_Activated;
             entryUsername.Focused += (s, e) => entryUsername.SelectRegion(0, -1);
             entryPassword.Focused += (s, e) => entryPassword.SelectRegion(0, -1);
-            btnCancel.Clicked += Button_Cancel_Clicked;
-            btnLogin.Clicked += Button_Login_Clicked;
-            btnConfig.Clicked += Button_Config_Clicked;
+            btnCancel.Clicked += button_Cancel_Clicked;
+            btnLogin.Clicked += button_Login_Clicked;
+            btnConfig.Clicked += button_Config_Clicked;
         }
 
-        private void Entry_Username_Activated(object sender, EventArgs e)
+        private void entry_Username_Activated(object sender, EventArgs e)
         {
             entryPassword.GrabFocus();
         }
 
-        private void Entry_Password_Activated(object sender, EventArgs e)
+        private void entry_Password_Activated(object sender, EventArgs e)
         {
             Console.WriteLine("Password Activated");
         }
 
-        private void Button_Login_Clicked(object sender, EventArgs e)
+        private void button_Login_Clicked(object sender, EventArgs e)
         {
             Console.WriteLine("User:" + entryUsername.Buffer.Text);
             Console.WriteLine("Pass:" + entryPassword.Buffer.Text);
         }
 
-        private void Button_Config_Clicked(object sender, EventArgs e)
+        private void button_Config_Clicked(object sender, EventArgs e)
         {
             var confDialog = new ConfigurationDialog
             {
@@ -77,7 +77,7 @@ namespace Jupiter
             confDialog.Hide();
         }
 
-        private void Button_Cancel_Clicked(object sender, EventArgs e)
+        private void button_Cancel_Clicked(object sender, EventArgs e)
         {
             this.Destroy();
             this.Dispose();
