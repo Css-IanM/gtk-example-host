@@ -42,7 +42,7 @@ namespace Jupiter
 
         private void bindEventsUi()
         {
-            entryUsername.Activated += entry_Username_Activated;
+            entryUsername.Activated += (s, e) => entryPassword.GrabFocus();
             entryPassword.Activated += entry_Password_Activated;
             entryUsername.Focused += (s, e) => entryUsername.SelectRegion(0, -1);
             entryPassword.Focused += (s, e) => entryPassword.SelectRegion(0, -1);
@@ -51,13 +51,9 @@ namespace Jupiter
             btnConfig.Clicked += button_Config_Clicked;
         }
 
-        private void entry_Username_Activated(object sender, EventArgs e)
-        {
-            entryPassword.GrabFocus();
-        }
-
         private void entry_Password_Activated(object sender, EventArgs e)
         {
+            // TODO: Authentication method for both login events (Activated and Clicked)
             Console.WriteLine("Password Activated");
         }
 
