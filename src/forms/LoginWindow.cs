@@ -33,6 +33,7 @@ namespace Jupiter
 
             bindEventsWindow();
             bindEventsUi();
+            setControlState();
         }
 
         private void bindEventsWindow()
@@ -40,15 +41,29 @@ namespace Jupiter
             Destroyed += (s, e) => Application.Quit();
         }
 
+        private void setControlState()
+        {
+            btnLogin.Sensitive = false;
+        }
+
         private void bindEventsUi()
         {
             entryUsername.Activated += (s, e) => entryPassword.GrabFocus();
             entryPassword.Activated += entry_Password_Activated;
+            entryUsername.Changed += validateEntry;
+            entryPassword.Changed += validateEntry;
             entryUsername.Focused += (s, e) => entryUsername.SelectRegion(0, -1);
             entryPassword.Focused += (s, e) => entryPassword.SelectRegion(0, -1);
             btnCancel.Clicked += button_Cancel_Clicked;
             btnLogin.Clicked += button_Login_Clicked;
             btnConfig.Clicked += button_Config_Clicked;
+        }
+
+        private void validateEntry(object sender, EventArgs e)
+        {
+            if (entryUsername.Text.Length > 0 && entryPassword.Text.Length > 0)
+                btnLogin.Sensitive = true;
+
         }
 
         private void entry_Password_Activated(object sender, EventArgs e)
