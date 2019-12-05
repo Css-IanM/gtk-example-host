@@ -5,25 +5,20 @@ namespace Jupiter
 {
     public class Startup
     {
+        private Application _app;
         private LoginWindow _loginWindow;
 
-        public Startup(LoginWindow loginWindow)
+        public Startup(Application app, LoginWindow loginWindow)
         {
+            _app = app;
             _loginWindow = loginWindow;
         }
-        public void Run()
+        public void Start()
         {
-            Application.Init();
-
-            var app = new Application("org.Jupiter.Jupiter", GLib.ApplicationFlags.None);
-            app.Register(GLib.Cancellable.Current);
-
-            app.AddWindow(_loginWindow);
-            //win.Show();
+            _app.Register(GLib.Cancellable.Current);
+            _app.AddWindow(_loginWindow);
             _loginWindow.Show();
             _loginWindow.DeleteEvent += DeletedEvent;
-            Application.Run();
-
         }
 
         private void DeletedEvent(object o, DeleteEventArgs args)

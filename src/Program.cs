@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Gtk;
 
 namespace Jupiter
 {
@@ -14,10 +15,12 @@ namespace Jupiter
         [STAThread]
         public static void Main(string[] args)
         {
+            Application.Init();
             // Build the provider to handle injection.
             var host = CreateHostBuilder(args).Build();
             var app = host.Services.GetService<Startup>();
-            app.Run();
+            app.Start();
+            Application.Run();
             // Resolve App startup from IoC Container so any future depedencies can be provided by the container
             // should it request them, like app level permissions via services, configuration, or logging services.
         }
@@ -39,9 +42,9 @@ namespace Jupiter
                     {
                         options.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     });
-                    services.AddSingleton<Gtk.Builder>(new Gtk.Builder());
-                    services.AddSingleton<LoginWindow>();
+                    services.AddSingleton<Application>(new Application("org.Jupiter.Jupiter", GLib.ApplicationFlags.None));
                     services.AddSingleton<Startup>();
+                    services.AddTransient<LoginWindow>();
                 })
                 .ConfigureLogging((hostContext, logging) =>
                 {
