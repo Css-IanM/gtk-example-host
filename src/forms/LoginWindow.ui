@@ -49,7 +49,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="_entryUsername">
+              <object class="GtkEntry" id="entryUsername">
                 <property name="width_request">20</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -88,7 +88,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="_entryPassword">
+              <object class="GtkEntry" id="entryPassword">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="halign">center</property>
@@ -116,7 +116,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkButton" id="_btnConfig">
+              <object class="GtkButton" id="btnConfig">
                 <property name="label" translatable="yes">Config</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -132,7 +132,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="_btnCancel">
+              <object class="GtkButton" id="btnCancel">
                 <property name="label" translatable="yes">Cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -148,7 +148,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="_btnLogin">
+              <object class="GtkButton" id="btnLogin">
                 <property name="label" translatable="yes">Login</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>

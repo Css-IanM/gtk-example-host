@@ -1,12 +1,13 @@
 using System;
-using Jupiter.Budgetary.Models;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using System.IO;
+
 using Gtk;
+using Jupiter.Budgetary.Models;
 
 namespace Jupiter
 {
@@ -15,9 +16,10 @@ namespace Jupiter
         [STAThread]
         public static void Main(string[] args)
         {
-            Application.Init();
+            Gtk.Application.Init();
             // Build the provider to handle injection.
             var host = CreateHostBuilder(args).Build();
+            // Grab the Bootstrapper from the container.
             var app = host.Services.GetService<Startup>();
             app.Start();
             Application.Run();
@@ -43,13 +45,12 @@ namespace Jupiter
                         options.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     });
                     services.AddSingleton<Application>(new Application("org.Jupiter.Jupiter", GLib.ApplicationFlags.None));
-                    services.AddSingleton<Startup>();
                     services.AddTransient<LoginWindow>();
+                    services.AddSingleton<Startup>();
                 })
                 .ConfigureLogging((hostContext, logging) =>
                 {
                     logging.AddConsole();
-                })
-                .UseConsoleLifetime();
+                });
     }
 }
