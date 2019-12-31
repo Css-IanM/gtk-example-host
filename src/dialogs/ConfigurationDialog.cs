@@ -11,28 +11,14 @@ namespace Jupiter
     class ConfigurationDialog : Dialog
     {
 
-        [UI] private Entry _entryConnectionString = null;
+        public ConfigurationDialog(
+            IConfiguration config
+            ) : this(new Builder("ConfigurationDialog.ui"), config) { }
 
-        public ConfigurationDialog() : this(new Builder("ConfigurationDialog.ui")) { }
-
-        private ConfigurationDialog(Builder builder) : base(builder.GetObject("ConfigurationDialog").Handle)
+        private ConfigurationDialog(Builder builder, IConfiguration config) : base(builder.GetObject("ConfigurationDialog").Handle)
         {
             builder.Autoconnect(this);
             DefaultResponse = ResponseType.Cancel;
-            try
-            {
-                IConfiguration config = new ConfigurationBuilder()
-                    .SetBasePath($"{Directory.GetCurrentDirectory()}\\config")
-                    .AddJsonFile("appsettings.json")
-                    .Build();
-                var connString = config.GetConnectionString("DefaultConnection");
-                _entryConnectionString.Text = connString;
-            }
-            catch (FileNotFoundException)
-            {
-                Console.WriteLine("Cannot find appsettings.json file");
-            }
-
             Response += Dialog_Response;
         }
 

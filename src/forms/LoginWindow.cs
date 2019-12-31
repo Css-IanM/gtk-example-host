@@ -1,5 +1,6 @@
 using System;
 using Gtk;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using UI = Gtk.Builder.ObjectAttribute;
 
@@ -11,26 +12,32 @@ namespace Jupiter
         [UI] private Button btnLogin = null;
         [UI] private Button btnCancel = null;
         [UI] private Button btnConfig = null;
-
         [UI] private Entry entryUsername = null;
         [UI] private Entry entryPassword = null;
         #endregion
 
         private readonly ILogger<LoginWindow> logger;
+        private readonly IConfiguration config;
 
         public LoginWindow(
-            ILogger<LoginWindow> logger
-        ) : this(new Builder("LoginWindow.ui"), logger) { }
+            ILogger<LoginWindow> logger,
+            IConfiguration config
+        ) :
+        this(new Builder("LoginWindow.ui"),
+            logger,
+            config)
+        { }
 
         private LoginWindow(
             Builder builder,
-            ILogger<LoginWindow> logger
+            ILogger<LoginWindow> logger,
+            IConfiguration config
             ) : base(builder.GetObject("LoginWindow").Handle)
         {
             // Initialization
             builder.Autoconnect(this);
             this.logger = logger;
-
+            this.config = config;
             bindEventsWindow();
             bindEventsUi();
             setControlState();
@@ -76,11 +83,13 @@ namespace Jupiter
         {
             Console.WriteLine("User:" + entryUsername.Buffer.Text);
             Console.WriteLine("Pass:" + entryPassword.Buffer.Text);
+
+
         }
 
         private void button_Config_Clicked(object sender, EventArgs e)
         {
-            var confDialog = new ConfigurationDialog
+            var confDialog = new ConfigurationDialog(config)
             {
                 TransientFor = this,
             };
